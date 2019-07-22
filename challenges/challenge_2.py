@@ -82,17 +82,20 @@ class Graph:
         """return all the vertices in the graph"""
         return self.vertList.keys()
 
-    def breadth_first_search(self, vertex, n=None):
+    def breadth_first_search(self):
         """searches the graph and returns the nodes at n level depth"""
+        vertex = argv[2]
+        vertex2 = argv[3]
         queue = [(vertex, 0)]
         visited = {}
         while queue:
             vertex, level = queue.pop(0)
-            if vertex not in visited and n is None:
-                visited[vertex] = level
-            if vertex not in visited and level == n:
+            if vertex not in visited:
                 visited[vertex] = level
             for neighbor in self.vertList[vertex].neighbors:
+                if neighbor.getId() is vertex2:
+                    visited[vertex2] = level + 1
+                    return visited
                 if neighbor not in visited:
                     queue.append((neighbor.getId(), level + 1))
         return visited 
@@ -124,6 +127,8 @@ def create_graph(graph_data):
         counter += 1
         graph.addEdge(word[1], word[3],
                       word[5:].replace(')', ''))
+    
+    print(graph.breadth_first_search())
 
     print("# Vertices:", len(graph.getVertices()))
     print("# Edges: ", counter, "\n")
@@ -165,9 +170,7 @@ if __name__ == "__main__":
     g.addEdge("C", "F")
     g.addEdge("C","E")
 
-
-    print(g.breadth_first_search("A"))
-
+    print(create_graph(parse_data()))
     # Add connections (non weighted edges for now)
 
 '''
