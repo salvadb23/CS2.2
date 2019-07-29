@@ -108,7 +108,7 @@ class Graph:
 
 
 def parse_data():
-    "reads file from command line"
+    """reads file from command line"""
     vertices = open(argv[1], 'r')
     graph_data = vertices.read().split()
     vertices.close()
@@ -116,9 +116,10 @@ def parse_data():
 
 
 def create_graph(graph_data):
-    "creates graph from graph_data"
-    if graph_data[0] is 'G':
-        graph = Graph()
+    """Create a graph from an array of graph information"""
+    is_graph = graph_data[0] is 'G'
+
+    graph = Graph()
 
     for vertex in graph_data[1].split(','):
         graph.addVertex(vertex)
@@ -127,47 +128,22 @@ def create_graph(graph_data):
 
     for word in graph_data[2:]:
         counter += 1
-        graph.addEdge(word[1], word[3],
-                      word[5:].replace(')', ''))
+        if is_graph:
+            graph.addEdge(word[3], word[1],
+                          word[5:].replace(')', ''))
+            graph.addEdge(word[1], word[3],
+                          word[5:].replace(')', ''))
+        else:
+            graph.addEdge(word[1], word[3],
+                          word[5:].replace(')', ''))
 
     return graph
 
-def print_graph(graph):
+def print_shortest_path(graph):
+    """prints the shortest path"""
     path = graph.shortest_path()
     for key in path.keys():
         print(key, end=',')
     print('\nNumber of edges in shortest path: {}'.format(len(path)-1))
 
-
-# data = parse_data()
-# graph = create_graph(data)
-if __name__ == "__main__":
-
-    # Challenge 1: Create the graph
-
-    g = Graph()
-
-    # Add your friends
-    g.addVertex("A")
-    g.addVertex("B")
-    g.addVertex("C")
-    g.addVertex("D")
-    g.addVertex("E")
-    g.addVertex("F")
-    g.addVertex("G")
-
-    g.addEdge("A", "B")
-    g.addEdge("A", "E")
-    g.addEdge("A", "C")
-    g.addEdge("B","D")
-    g.addEdge("C", "F")
-    g.addEdge("C","G")
-    g.addEdge("A", "G")
-    g.addEdge("A", "F")
-    g.addEdge("B","C")
-    g.addEdge("C", "F")
-    g.addEdge("C","E")
-
-    graph_data = create_graph(parse_data())
-    print(print_graph(graph_data))
-    # Add connections (non weighted edges for now)
+print_shortest_path(create_graph(parse_data()))

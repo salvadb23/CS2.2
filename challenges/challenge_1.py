@@ -48,11 +48,6 @@ class Graph:
         self.vertList = {}
         self.numVertices = 0
 
-    # def __str__(self):
-    #     for item in self.vertList:
-    #         print(item)
-    #     return 'done'
-
     def addVertex(self, key):
         """add a new vertex object to the graph with
         the given key and return the vertex
@@ -82,21 +77,6 @@ class Graph:
         """return all the vertices in the graph"""
         return self.vertList.keys()
 
-    def breadth_first_search(self, vertex, n=None):
-        """searches the graph and returns the nodes at n level depth"""
-        queue = [(vertex, 0)]
-        visited = {}
-        while queue:
-            vertex, level = queue.pop(0)
-            if vertex not in visited and n is None:
-                visited[vertex] = level
-            if vertex not in visited and level == n:
-                visited[vertex] = level
-            for neighbor in self.vertList[vertex].neighbors:
-                if neighbor not in visited:
-                    queue.append((neighbor.getId(), level + 1))
-        return visited 
-
     def __iter__(self):
         """iterate over the vertex objects in the
         graph, to use sytax: for v in g
@@ -105,6 +85,7 @@ class Graph:
 
 
 def parse_data():
+    """ creates an array of graph data from a text file passed in as a command line argument"""
     vertices = open(argv[1], 'r')
     graph_data = vertices.read().split()
     vertices.close()
@@ -112,8 +93,10 @@ def parse_data():
 
 
 def create_graph(graph_data):
-    if graph_data[0] is 'G':
-        graph = Graph()
+    '''Create a graph from an array of graph information'''
+    is_graph = graph_data[0] is 'G'
+
+    graph = Graph()
 
     for vertex in graph_data[1].split(','):
         graph.addVertex(vertex)
@@ -122,12 +105,20 @@ def create_graph(graph_data):
 
     for word in graph_data[2:]:
         counter += 1
-        graph.addEdge(word[1], word[3],
-                      word[5:].replace(')', ''))
+        if is_graph:
+            graph.addEdge(word[3], word[1],
+                          word[5:].replace(')', ''))
+            graph.addEdge(word[1], word[3],
+                          word[5:].replace(')', ''))
+        else:
+            graph.addEdge(word[1], word[3],
+                          word[5:].replace(')', ''))
 
     return graph, counter
 
+
 def print_graph(graph, counter):
+    """prints the graph we created using the create_graph function"""
     print("# Vertices:", len(graph.getVertices()))
     print("# Edges: ", counter, "\n")
     print("Edge List:")
@@ -137,47 +128,6 @@ def print_graph(graph, counter):
                   (v.getId(), w.getId(), v.getEdgeWeight(w)))
 
 
-# data = parse_data()
-# graph = create_graph(data)
-if __name__ == "__main__":
-
-    # Challenge 1: Create the graph
-
-    g = Graph()
-
-    # Add your friends
-    g.addVertex("A")
-    g.addVertex("B")
-    g.addVertex("C")
-    g.addVertex("D")
-    g.addVertex("E")
-    g.addVertex("F")
-    g.addVertex("G")
-
-    g.addEdge("A", "B")
-    g.addEdge("A", "E")
-    g.addEdge("A", "C")
-    g.addEdge("B","D")
-    g.addEdge("C", "F")
-    g.addEdge("C","G")
-    g.addEdge("A", "G")
-    g.addEdge("A", "F")
-    g.addEdge("B","C")
-    g.addEdge("C", "F")
-    g.addEdge("C","E")
-
-
-    graph, counter = create_graph(parse_data())
-    print_graph(graph, counter)
-
-    # Add connections (non weighted edges for now)
-
-'''
-# Challenge 1: Output the vertices & edges
-# Print vertices
-print("The vertices are: ", g.getVertices(), "\n")
-print("The edges are: ")
-for v in g:
-    for w in v.getNeighbors():
-        print("( %s , %s )" % (v.getId(), w.getId()))
-'''
+data = parse_data()
+graph, counter = create_graph(data)
+print_graph(graph, counter)
