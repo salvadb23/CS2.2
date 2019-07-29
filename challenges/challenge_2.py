@@ -82,19 +82,19 @@ class Graph:
         """return all the vertices in the graph"""
         return self.vertList.keys()
 
-    def breadth_first_search(self):
+    def shortest_path(self):
         """searches the graph and returns the nodes at n level depth"""
-        vertex = argv[2]
-        vertex2 = argv[3]
-        queue = [(vertex, 0)]
+        vertex_one = argv[2]
+        vertex_two = argv[3]
+        queue = [(vertex_one, 0)]
         visited = {}
         while queue:
             vertex, level = queue.pop(0)
             if vertex not in visited:
                 visited[vertex] = level
             for neighbor in self.vertList[vertex].neighbors:
-                if neighbor.getId() is vertex2:
-                    visited[vertex2] = level + 1
+                if neighbor.getId() is vertex_two:
+                    visited[vertex_two] = level + 1
                     return visited
                 if neighbor not in visited:
                     queue.append((neighbor.getId(), level + 1))
@@ -108,6 +108,7 @@ class Graph:
 
 
 def parse_data():
+    "reads file from command line"
     vertices = open(argv[1], 'r')
     graph_data = vertices.read().split()
     vertices.close()
@@ -115,6 +116,7 @@ def parse_data():
 
 
 def create_graph(graph_data):
+    "creates graph from graph_data"
     if graph_data[0] is 'G':
         graph = Graph()
 
@@ -127,18 +129,14 @@ def create_graph(graph_data):
         counter += 1
         graph.addEdge(word[1], word[3],
                       word[5:].replace(')', ''))
-    
-    print(graph.breadth_first_search())
-
-    print("# Vertices:", len(graph.getVertices()))
-    print("# Edges: ", counter, "\n")
-    print("Edge List:")
-    for v in graph:
-        for w in v.neighbors:
-            print("(%s ,%s, %s)" %
-                  (v.getId(), w.getId(), v.getEdgeWeight(w)))
 
     return graph
+
+def print_graph(graph):
+    path = graph.shortest_path()
+    for key in path.keys():
+        print(key, end=',')
+    print('\nNumber of edges in shortest path: {}'.format(len(path)-1))
 
 
 # data = parse_data()
@@ -170,15 +168,6 @@ if __name__ == "__main__":
     g.addEdge("C", "F")
     g.addEdge("C","E")
 
-    print(create_graph(parse_data()))
+    graph_data = create_graph(parse_data())
+    print(print_graph(graph_data))
     # Add connections (non weighted edges for now)
-
-'''
-# Challenge 1: Output the vertices & edges
-# Print vertices
-print("The vertices are: ", g.getVertices(), "\n")
-print("The edges are: ")
-for v in g:
-    for w in v.getNeighbors():
-        print("( %s , %s )" % (v.getId(), w.getId()))
-'''

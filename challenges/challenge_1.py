@@ -48,10 +48,10 @@ class Graph:
         self.vertList = {}
         self.numVertices = 0
 
-    def __str__(self):
-        for item in self.vertList:
-            print(item)
-        return 'done'
+    # def __str__(self):
+    #     for item in self.vertList:
+    #         print(item)
+    #     return 'done'
 
     def addVertex(self, key):
         """add a new vertex object to the graph with
@@ -125,6 +125,9 @@ def create_graph(graph_data):
         graph.addEdge(word[1], word[3],
                       word[5:].replace(')', ''))
 
+    return graph, counter
+
+def print_graph(graph, counter):
     print("# Vertices:", len(graph.getVertices()))
     print("# Edges: ", counter, "\n")
     print("Edge List:")
@@ -132,8 +135,6 @@ def create_graph(graph_data):
         for w in v.neighbors:
             print("(%s ,%s, %s)" %
                   (v.getId(), w.getId(), v.getEdgeWeight(w)))
-
-    return graph
 
 
 # data = parse_data()
@@ -166,7 +167,8 @@ if __name__ == "__main__":
     g.addEdge("C","E")
 
 
-    print(g.breadth_first_search("A"))
+    graph, counter = create_graph(parse_data())
+    print_graph(graph, counter)
 
     # Add connections (non weighted edges for now)
 
