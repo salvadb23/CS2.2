@@ -82,7 +82,7 @@ class Graph:
         """return all the vertices in the graph"""
         return self.vertList.keys()
 
-    def DFS_recursive(self, v, v2):
+    def DFS_recursive(self,v,v2):
         """searches the graph to see if there is a path between two vertices using DFS"""
         vertexObj = self.vertList[v]
         visited = {}
@@ -94,8 +94,13 @@ class Graph:
                 if neighbor.getId() not in visited:
                     dfs(neighbor)
         dfs(vertexObj)
+        path = list(visited.keys())
+        end_path = path.index(v2) + 1
 
-        return list(visited.keys())
+        is_path = v2 in path
+
+
+        return (is_path, path[:end_path])
 
 
     def __iter__(self):
@@ -137,23 +142,16 @@ def create_graph(graph_data):
 
     return graph
 
-g = Graph()
+def print_path_result(path, path_list):
+    print("There exist a path between vertex {} and {}: {}".format(
+        argv[2], argv[3], path))
+    print('Vertices in path: {}'.format((',').join(path_list)))
 
-# Add your friends
-g.addVertex(1)
-g.addVertex(2)
-g.addVertex(3)
-g.addVertex(4)
-g.addVertex(5)
-# Add connections (non weighted edges for now)
+data = parse_data()
+g = create_graph(data)
+g.DFS_recursive(argv[2],argv[3])
 
-g.addEdge(1,2)
-g.addEdge(1,4)
-g.addEdge(2,3)
-g.addEdge(2,4)
-g.addEdge(3,5)
-g.addEdge(5,2)
-
-print(g.DFS_recursive(3,2))
+path, pathlist = g.DFS_recursive(argv[2],argv[3])
+print_path_result(path, pathlist)
 
 
