@@ -82,10 +82,8 @@ class Graph:
         """return all the vertices in the graph"""
         return self.vertList.keys()
 
-    def shortest_path(self):
+    def shortest_path(self, vertex_one, vertex_two):
         """searches the graph and returns the nodes at n level depth"""
-        vertex_one = argv[2]
-        vertex_two = argv[3]
         queue = [(vertex_one, 0)]
         visited = {}
         while queue:
@@ -141,9 +139,10 @@ def create_graph(graph_data):
 
 def print_shortest_path(graph):
     """prints the shortest path"""
-    path = graph.shortest_path()
+    path = graph.shortest_path(argv[2],argv[3])
     for key in path.keys():
         print(key, end=',')
     print('\nNumber of edges in shortest path: {}'.format(len(path)-1))
 
-print_shortest_path(create_graph(parse_data()))
+if __name__ == "__main__":
+    print_shortest_path(create_graph(parse_data()))

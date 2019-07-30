@@ -147,11 +147,12 @@ def print_path_result(path, path_list):
         argv[2], argv[3], path))
     print('Vertices in path: {}'.format((',').join(path_list)))
 
-data = parse_data()
-g = create_graph(data)
-g.DFS_recursive(argv[2],argv[3])
+if __name__ == "__main__":
+    data = parse_data()
+    g = create_graph(data)
+    g.DFS_recursive(argv[2],argv[3])
 
-path, pathlist = g.DFS_recursive(argv[2],argv[3])
-print_path_result(path, pathlist)
+    path, pathlist = g.DFS_recursive(argv[2],argv[3])
+    print_path_result(path, pathlist)
 
 

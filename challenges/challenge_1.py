@@ -127,7 +127,7 @@ def print_graph(graph, counter):
             print("(%s ,%s, %s)" %
                   (v.getId(), w.getId(), v.getEdgeWeight(w)))
 
-
-data = parse_data()
-graph, counter = create_graph(data)
-print_graph(graph, counter)
+if __name__ == "__main__":
+    data = parse_data()
+    graph, counter = create_graph(data)
+    print_graph(graph, counter)
