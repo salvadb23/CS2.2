@@ -152,6 +152,7 @@ def create_graph(graph_data):
     return graph
 
 def print_path_result(path, path_list):
+    """prints result from eularian function above"""
     print("There exist a path between vertex {} and {}: {}".format(
         argv[2], argv[3], path))
     print('Vertices in path: {}'.format((',').join(path_list)))
