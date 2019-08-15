@@ -82,7 +82,7 @@ class Graph:
         """return all the vertices in the graph"""
         return self.vertList.keys()
 
-    def DFS_recursive(self,v,v2):
+    def DFS_recursive(self, v, v2):
         """searches the graph to see if there is a path between two vertices using DFS"""
         vertexObj = self.vertList[v]
         visited = {}
@@ -99,7 +99,6 @@ class Graph:
 
         is_path = v2 in path
 
-
         return (is_path, path[:end_path])
 
     def has_Eularian_Cycle(self):
@@ -110,7 +109,6 @@ class Graph:
             if len(self.vertList[vertex].getNeighbors()) % 2 != 0:
                 return False
         return True
-
 
     def __iter__(self):
         """iterate over the vertex objects in the
@@ -151,11 +149,13 @@ def create_graph(graph_data):
 
     return graph
 
+
 def print_path_result(path, path_list):
     """prints result from eularian function above"""
     print("There exist a path between vertex {} and {}: {}".format(
         argv[2], argv[3], path))
     print('Vertices in path: {}'.format((',').join(path_list)))
+
 
 if __name__ == "__main__":
     data = parse_data()

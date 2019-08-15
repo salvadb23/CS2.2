@@ -145,12 +145,14 @@ def create_graph(graph_data):
 
     return graph
 
+
 def print_shortest_path(graph):
     """prints the shortest path"""
-    path = graph.shortest_path(argv[2],argv[3])
+    path = graph.shortest_path(argv[2], argv[3])
     for key in path:
         print(key, end=',')
     print('\nNumber of edges in shortest path: {}'.format(len(path)-1))
+
 
 if __name__ == "__main__":
     print_shortest_path(create_graph(parse_data()))
