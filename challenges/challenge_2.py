@@ -86,17 +86,25 @@ class Graph:
         """searches the graph and returns the nodes at n level depth"""
         queue = [(vertex_one, 0)]
         visited = {}
+        path = []
         while queue:
-            vertex, level = queue.pop(0)
+            if vertex_two in visited:
+                break
+            vertex, parent = queue.pop(0)
+            if len(visited.keys()) is len(self.vertList):
+                break
             if vertex not in visited:
-                visited[vertex] = level
+                visited[vertex] = parent
+
             for neighbor in self.vertList[vertex].neighbors:
-                if neighbor.getId() is vertex_two:
-                    visited[vertex_two] = level + 1
-                    return visited
                 if neighbor not in visited:
-                    queue.append((neighbor.getId(), level + 1))
-        return visited 
+                    queue.append((neighbor.getId(), vertex))
+
+        child = vertex_two
+        while vertex_one not in path:
+            path.append(child)
+            child = visited[child]
+        return path[::-1]
 
     def __iter__(self):
         """iterate over the vertex objects in the
@@ -140,7 +148,7 @@ def create_graph(graph_data):
 def print_shortest_path(graph):
     """prints the shortest path"""
     path = graph.shortest_path(argv[2],argv[3])
-    for key in path.keys():
+    for key in path:
         print(key, end=',')
     print('\nNumber of edges in shortest path: {}'.format(len(path)-1))
 

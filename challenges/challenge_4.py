@@ -1,16 +1,13 @@
-def fibonacci(n):
-    memo = {0: 0, 1: 1}
+# https://www.geeksforgeeks.org/word-break-problem-dp-32/
+def word_break(wordList, word):
+    if word == '':
+        return True
+    else:
+        wordLen = len(word)
+        return any([(word[:i] in wordList) and word_break(wordList, word[i:]) for i in range(1, wordLen+1)])
 
-    def fib(num):
-        if num in memo:
-            return memo[num]
-        else:
-            memo[num] = fib(num - 1) + fib(num - 2)
-            return fib(num-1) + fib(num-2)
-    return fib(n)
-
-
-result = fibonacci(5)
+words = ['hello', 'hell']
+result = word_break(5)
 print(result)
 
 def knapSack(capacity, items, n):
@@ -41,6 +38,7 @@ def knapSack(capacity, items, n):
 
 
 def print_knapsack_solution(items, capacity, result):
+    '''prints the return value from our knapsack function'''
     print("For this input: {}, \n Capacity of knapsack: {}\n The value of the optimal solution to the knapsack problem is V={}".format(
         items, capacity, result))
 
